@@ -24,62 +24,97 @@ $ rails server
 
 ### Release 0: Architect
 
+We'll be making a single page app, which means we never refresh. All of this will be accomplished using JavaScript. Check the Endpoint Documentation at the bottom of this document to see what data you can request from the server, then look at the Rails app to examine the specific controllers and routes that will allow your Javascript code to send and receive data from the server. You might even hit some of those routes directly in your browser to see what they return.
+
 Your site needs to have the following functionality:
+
+#### Milestone 1
 
 > - On page load, the 50 most recent tweets are displayed in the 'river' running down the middle of the page.
 > - On page load, the 10 most popular hashtags are displayed.
->
+
+
+#### Milestone 2
+
 > - A user can create a tweet, which will get saved into the database with a fake username, fake handle, and fake avatar (which is all handled server-side).
-> - Any hashtags the tweet includes (e.g. #yolo), should also be associated with that tweet.
 > - The new tweet should appear atop the 'river', preferrably with some sort of animation.
->
+
+#### Milestone 3
+
+> - Any hashtags the tweet includes (e.g. #yolo), should also be associated with that tweet.
+
+#### Milestone 4
 > - A user can search for a specific hashtag using the search bar. The results of the search will be displayed in the river, replacing whatever was there before.
 > - If the user searches for a hashtag that does not exist, the search bar turns red.
->
-> - A user can click on a trending topic in the trends box, which causes the river to display all tweets that are associated with that hashtag, replacing whatever was there before.
->
-> - When a user clicks on the Lil Twitter header, the 50 most recent tweets are displayed.
 
-All of this will be accomplished using JavaScript. Spend some time thinking about your architecture – what objects do you need? What are their interfaces? What does your file structure look like? Make sure you aren't micromanaging or over-designing -- Big Design Up Front is never great -- but your team will benefit from some basic architecture desicisions before starting.
 
-Consider the following diagram, which highlights the different views your
-solution might include:
+#### Milestone 5
+> - A user can click on a hashtag in the trends box, which causes the river to display all tweets that are associated with that hashtag, replacing whatever was there before.
 
-![views diagram](doc/views.png)
 
 
 ### Release 1: Build
 
-Start by following the instructions & sample code here:
+For now we're going to _ignore_ making constructors or using the prototype. We want to focus on writing lots of functions! Our functions should be small, single-purpose, and have clear inputs and outputs. We might use some of our functions together to make bigger functions too, we'd call this "function composition".
 
-[emails-backbone-example](../../../emails-backbone-example)
+Each function should be focused on one task. For example, one function might know how to fetch the 50 most recent tweets. Another may know how to take a tweet in and then render some HTML. Yet another function might know how to take an array of tweets and render some HTML.
 
-Okay, now build the thing. You should avoid any changes to the server-side code, although if you feel like changes are necessary, implement them and make sure the tests reflect your alterations. You will need to remove the filler elements in `app/views/index.html`. Structural changes to HTML and CSS should not be necessary, and it is generally a bad idea to unilaterally change a resource that your entire team depends on. Any changes to the existing code base, no matter how small, should be done intentionally and in consultation with your entire team.
+We're still thinking MVC, but these will be model, view and controller _functions_, not objects. Model functions might fetch and send data. View functions might make HTML. Controller functions might know how to respond to user input, fetching data and displaying it in the process.
 
-**Build your solution in the following order:**
+You should avoid any changes to the server-side code, although if you feel like changes are necessary, implement them and make sure the tests reflect your alterations. You will need to remove the filler elements in `app/views/index.html`. Structural changes to HTML and CSS should not be necessary.
 
-1. Tweet model
-2. Tweets collection
+As an example, here's a diagram that shows how you might think about the functions that control your views and how they might work together.
 
-> Before moving on: Get approval from an instructor once you can fetch tweets from the server.
+![views diagram](doc/views.png)
 
-3. Timeline view
-4. Tweet view
+#### Common patterns
 
-> Before moving on: Ask an instructor for a review of your Timeline & Tweet views
+When dealing with model style functions that use AJAX, a common pattern is to have the function fetch data from the server and return a _promise_ objects. A `Promise` is what jQuery returns when you call `$.ajax`. It's the thing that we call `.done()` on.
 
-5. SearchBox view
-6. Compose view
-7. HashTag model
-8. HashTags view
-9. HashTag view
+By returning a promise object, your fetching method (a model method) can keep its logic separate from the method that needs to use its data (say a controller method).
 
+Example:
+
+```javascript
+   $(document).ready(function() {
+      $("#weather-form").on("submit", function() {
+         handleWeatherFormSubmit();
+      })
+   })
+
+   //Model style function
+   // Notice that it doesn't do any view work
+   function fetchWeather(zip) {
+      var requestPromise = $.ajax({url:"/weather", method:"GET", data:{zipcode: zip}});
+      return requstPromise;
+   }
+
+   //Controller style function
+   // Notice that it uses our model function and our view function!
+   function handleWeatherFormSubmit() {
+      var zip = $("#zip-code").val();
+      var promiseFromAjax = fetchWeather(zip);
+
+      //Here the controller function attaches something with .done()
+      // so that it can use the view when the data comes back.
+      promiseFromAjax.done(function(weatherData) {
+         showWeather(weatherData)
+      })
+   }
+
+   //View style function
+   function showWeather(weatherInfo) {
+      $("#temperature").html("The temperature will be " + weatherInfo.temp)
+   }
+```
+
+**If this pattern doesn't make sense, that's ok. Just start coding and check-in with an instructor about this pattern when you're about 30 minutes in.**
 
 ### Release 2: Expand
 
-The benefits of OO architecture is that it is easily extendable. Add an additional feature to your application, like:
+Add an additional feature to your application:
 
- - a system for checking if new tweets have been created since page load, using long-polling.
+ - add a system for checking if new tweets have been created since page load, using long-polling.
  - have the river of tweets only display 10 tweets, and dynamically load more when the user scrolls to the bottom of the page.
  - give the user the ability to click hashtags inside tweets, which would display tweets associated with that hashtag.
 
