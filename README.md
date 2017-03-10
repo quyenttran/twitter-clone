@@ -86,7 +86,7 @@ Example:
    // Notice that it doesn't do any view work
    function fetchWeather(zip) {
       var requestPromise = $.ajax({url:"/weather", method:"GET", data:{zipcode: zip}});
-      return requstPromise;
+      return requestPromise;
    }
 
    //Controller style function
