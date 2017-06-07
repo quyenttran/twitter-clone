@@ -6,18 +6,28 @@ $(document).ready(function(){
   tweetForm.on("submit", function(event){
     event.preventDefault();
     var $that = $(this);
-    var content = $('#new-tweet').val()
-    var tweet = {tweet: new NewTweet(content)}
-    console.log(tweet)
+    var tweet = new Tweet({content: $('#new-tweet').val()});
+    var data = {tweet: {hashtag_names: tweet.hashtag_names, content: tweet.content}}
     $.ajax({
-      method: 'POST',
+      method: 'post',
       url: '/tweets',
-      data: tweet
+      dataType: 'JSON',
+      data: data
     })
     // Prepend response to Tweet River
     .done(function(response){
+      console.log(response)
       tweetRiver.prepend(response)
     });
   });
+
+
+    // Prepend response to Tweet River
+    .done(function(response){
+      console.log(response)
+      tweetRiver.prepend(response)
+    });
+  });
+
 
 });
