@@ -18,7 +18,7 @@ $(document).ready(function(){
       dataType: 'JSON',
       data: data
     })
-    // Prepend response to Tweet River
+    // Prepend response to Tweet River, and animate
     .done(function(response){
       $tweetRiver.prepend(tweetsViews.renderTweet(response)).children().first().hide().fadeIn(200)
       // Remove oldest tweet in Tweet River
@@ -35,7 +35,7 @@ $(document).ready(function(){
     tweets = ""
     // Erase current content of $tweetRiver
     $tweetRiver.html("")
-    // Prepend each tweet
+    // Append each tweet
     response.forEach(function(tweet){
       $tweetRiver.append(tweetsViews.renderTweet(tweet));
     })
