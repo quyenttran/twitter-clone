@@ -7,6 +7,13 @@ function requestRecent() {
   return request
 }
 
+function timeSince(timeString) {
+  var now = moment(new Date())
+  var then = moment(timeString)
+  var time = moment.duration(now.diff(then)).minutes()
+  return time
+}
+
 $(document).ready(function(event) {
   var tweet = $(".tweet")
 
@@ -21,17 +28,17 @@ $(document).ready(function(event) {
     tweet.eq(i).find(".username").text(handle)
   }
   function displayTimestamp(timestamp, i) {
-    tweet.eq(i).find(".timestamp").text(timestamp)
+    tweet.eq(i).find(".timestamp").text(timeSince(timestamp) +" minutes ago")
   }
   function displayContent(content, i) {
     tweet.eq(i).find(".tweet-content").find("p").first().next().text(content)
   }
   function displayTweet(tweet, i) {
     displayAvatar(tweet.avatar_url, i)
-    displayFullName(tweet.username, i);
-    displayUsername(tweet.handle, i);
-    displayTimestamp(tweet.created_at, i);
-    displayContent(tweet.content, i);
+    displayFullName(tweet.username, i)
+    displayUsername(tweet.handle, i)
+    displayTimestamp(tweet.created_at, i)
+    displayContent(tweet.content, i)
   }
 
   // controller for recent
