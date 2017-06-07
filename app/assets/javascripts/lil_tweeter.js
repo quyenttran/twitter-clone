@@ -1,55 +1,47 @@
 // model for recent
 function requestRecent() {
-  // console.log("request recent")
   var request = $.ajax({
       method: 'get',
       url: '/tweets/recent'
-    });
-    return request
+  });
+  return request
 }
 
-// views for recent
-
-
-// controller for recent
-
-
-
 $(document).ready(function(event) {
-  controlRecent(requestRecent());
-  var tweet = $(".tweet").first()
+  var tweet = $(".tweet")
 
-  function displayAvatar(url) {
-    // console.log(url)
-    // console.log(tweet.find(".avatar").attr('src', url))
-    tweet.find(".avatar").attr('src', url)
+  // views for recent
+  function displayAvatar(url, i) {
+    tweet.eq(i).find(".avatar").attr('src', url)
   }
-  function displayFullName(username) {
-    console.log("first name", tweet.find(".full-name"))
-    tweet.find(".full-name").text(username)
+  function displayFullName(username, i) {
+    tweet.eq(i).find(".full-name").text(username)
   }
-  function displayUsername(handle) {
-    tweet.find(".username").text(handle)
+  function displayUsername(handle, i) {
+    tweet.eq(i).find(".username").text(handle)
   }
-  function displayTimestamp(timestamp) {
-    tweet.find(".timestamp").text(timestamp)
+  function displayTimestamp(timestamp, i) {
+    tweet.eq(i).find(".timestamp").text(timestamp)
   }
-  function displayContent(content) {
-    tweet.find(".tweet-content").find("p").first().next().text(content)
+  function displayContent(content, i) {
+    tweet.eq(i).find(".tweet-content").find("p").first().next().text(content)
   }
-  function displayTweet(tweet) {
-    displayAvatar(tweet.avatar_url)
-    displayFullName(tweet.username);
-    displayUsername(tweet.handle);
-    displayTimestamp(tweet.created_at);
-    displayContent(tweet.content);
+  function displayTweet(tweet, i) {
+    displayAvatar(tweet.avatar_url, i)
+    displayFullName(tweet.username, i);
+    displayUsername(tweet.handle, i);
+    displayTimestamp(tweet.created_at, i);
+    displayContent(tweet.content, i);
   }
 
+  // controller for recent
   function controlRecent(recentTweets) {
     recentTweets.done(function(response){
       for(var i=0; i<response.length; i++) {
-        displayTweet(response[i])
+        displayTweet(response[i], i)
       }
     })
   }
+
+  controlRecent(requestRecent());
 })
