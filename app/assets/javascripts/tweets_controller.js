@@ -1,6 +1,8 @@
 $(document).ready(function(){
+
   var $tweetForm = $("#tweet-form")
   var $tweetRiver = $("#tweets-container").find("ul")
+  var $searchTweets = $("#search-form")
   var $tweetFormBody = $('#new-tweet')
 
 // Create TweetsViews object
@@ -26,6 +28,7 @@ $(document).ready(function(){
     });
   });
 
+
 // GET most recent 50 tweets
   $.ajax({
     method: 'get',
@@ -42,4 +45,23 @@ $(document).ready(function(){
   });
 
 
+	$searchTweets.on("submit", function(event){
+		event.preventDefault();
+		var $that = $(this)
+		var query = $('#search').val();
+		$.ajax({
+			method: 'get',
+			url: "tweets/search/" + query
+		})
+		.done(function(response){
+			$tweetRiver.html("")
+	    	response.forEach(function(tweet){
+	      	$tweetRiver.append(tweetsViews.renderTweet(tweet));
+	    	})
+    	})
+    	.fail(function(response){
+    		$('#search').css('background-color', 'pink')
+    		console.log(response)
+    	})
+	})
 });
