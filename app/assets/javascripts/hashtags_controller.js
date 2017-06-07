@@ -7,8 +7,14 @@ $(document).ready(function() {
   }).done(function(response) {
     trending.html("")
     response.forEach(function(tag) {
-      var span = ", <span style='color: grey'>" + tag.hashtag_count + "</span>"
-      trending.prepend("<li>" + tag.name + span + "hits </li>")
+      var span = "<span style='color: grey'> &#128038; " + tag.hashtag_count + "</span>"
+      var search_path = '/tweets/search/' + tag.name
+      var link = "<a href='" + search_path + "'>" + tag.name + "</a>"
+      trending.prepend("<li>" + link + span + "</li>")
     })
   })
+
+
+
+
 })
