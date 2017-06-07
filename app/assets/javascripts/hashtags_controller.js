@@ -31,5 +31,21 @@ $(document).ready(function() {
     })
   })
 
-
+  $("body").on("click", "a.hash-tag", function(e){
+    e.preventDefault()
+    var $that = $(this)
+    console.log($that)
+    $.ajax({
+      method: "GET",
+      url: $that.attr('href')
+    })
+    .done(function(response){
+      tweets = ""
+      $tweetRiver.html("")
+      console.log(response)
+      response.forEach(function(tweet){
+        $tweetRiver.append(tweetsViews.renderTweet(tweet));
+      })
+    })
+  })
 })
