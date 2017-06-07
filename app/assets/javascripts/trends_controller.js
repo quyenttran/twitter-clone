@@ -1,8 +1,8 @@
 $(document).ready(function(){
-  var $trendsListItems = $('#trends-container').find('li')
   $('#trends-container').on('click', 'li', function(event){
     var tag = $(this).text()
     handleTweetsWithHashtag(tag)
+    $(window).unbind("scroll");
   })
 })
 

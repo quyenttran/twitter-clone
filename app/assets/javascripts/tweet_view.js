@@ -1,5 +1,9 @@
 function showRecent(recentTweets){
   $('#tweets-container').find('li').remove()
+  showMoreTweets(recentTweets)
+}
+
+function showMoreTweets(recentTweets){
   for(var i = 0; i < recentTweets.length; i++){
     $('#tweets-container').find('ul').append("<li class=\"tweet\">" +
         "<img class=\"avatar\" src=\"" + recentTweets[i].avatar_url + "\" alt=\"\">" +
