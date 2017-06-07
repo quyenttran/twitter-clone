@@ -31,7 +31,9 @@ $(document).ready(function(){
   $("#tweet-form").on("submit", function(event){
     event.preventDefault()
     var data = $(this).find("#new-tweet").val()
-    console.log($(this).find("#new-tweet").val())
+    // var hashtag = data.match(/\B#\w*/g)
+    // var finalHash = hashtag.join('').substring(1)
+
     $.ajax({
       method: "POST",
       url: "/tweets",
