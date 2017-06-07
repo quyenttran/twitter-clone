@@ -1,36 +1,29 @@
 $(document).ready(function() {
-
   $("#tweet-form").on("submit", function(e) {
     e.preventDefault()
     handleCreateTweet();
   })
-
-
 })
 
 
 function createTweet(newTweet, tags) {
   dataToSend = {"tweet": {"content": newTweet}, "hashtags": tags}
-
   var requestPromise = $.ajax({url: "/tweets", method: "POST", data: dataToSend});
-
   return requestPromise;
 }
 
 function handleCreateTweet() {
   var content = $("#new-tweet").val()
   var contentAndTags = content.split(" ")
-
   var tags = [];
+
   $.each(contentAndTags, function(i,val) {
     if (contentAndTags[i].indexOf("#") === 0){
       tags.push(contentAndTags[i].substring(1))
     }
   })
 
-  console.log(tags)
   var promiseFromAjax = createTweet(content, tags);
-
   promiseFromAjax.done(function(tweetInfo) {
     showNewTweet(tweetInfo);
   })
@@ -38,6 +31,7 @@ function handleCreateTweet() {
 
 function showNewTweet(tweet) {
   $("#tweets-container > ul").children().last().remove()
+
   $("#tweets-container > ul").animate({
     marginTop: "+=73px"
   }, 500)
@@ -57,7 +51,6 @@ function showNewTweet(tweet) {
         "</div>" +
       "</li>")
   })
-
 
   $("#new-tweet").val('');
 }
