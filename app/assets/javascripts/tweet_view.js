@@ -7,7 +7,7 @@ function showRecent(recentTweets){
           "<p>" +
             "<span class=\"full-name\">" + recentTweets[i].username + "</span>" +
             "<span class=\"username\">" + recentTweets[i].handle + "</span>" +
-            "<span class=\"timestamp\"> - " +  Math.floor(((new Date() - new Date(recentTweets[i].updated_at))/1000)/60) + "m</span>" +
+            "<span class=\"timestamp\"> - " +  minutesSinceTweet(recentTweets[i].updated_at) + "m</span>" +
           "</p>" +
           "<p>" + recentTweets[i].content + "</p>" +
         "</div>" +

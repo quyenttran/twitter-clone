@@ -6,3 +6,6 @@ function fetchRecent(){
   return recentTweets;
 }
 
+function minutesSinceTweet(tweetUpdated){
+  return Math.floor(((new Date() - new Date(tweetUpdated))/1000)/60)
+}
