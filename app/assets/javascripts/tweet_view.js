@@ -11,7 +11,7 @@ function showMoreTweets(recentTweets){
           "<p>" +
             "<span class=\"full-name\">" + recentTweets[i].username + "</span>" +
             "<span class=\"username\">" + recentTweets[i].handle + "</span>" +
-            "<span class=\"timestamp\"> - " +  minutesSinceTweet(recentTweets[i].updated_at) + "m</span>" +
+            "<span class=\"timestamp\"> - " +  timeSinceTweet(recentTweets[i].updated_at) + "</span>" +
           "</p>" +
           "<p>" + recentTweets[i].content + "</p>" +
         "</div>" +
