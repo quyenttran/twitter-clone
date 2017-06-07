@@ -15,6 +15,10 @@ class TweetsController < ApplicationController
   end
 
   def create
+    puts "params here"
+    p params
+    puts "tweet_params"
+    p tweet_params
     tweet = Tweet.new(tweet_params)
     tweet.content ||= Faker::Lorem.sentence
     tweet.username ||= Faker::Name.name
