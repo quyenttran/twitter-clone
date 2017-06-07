@@ -23,14 +23,15 @@ $(document).ready(function(){
   $("#tweet-form").on("submit", function(event){
     event.preventDefault()
     var data = $(this).find("#new-tweet").val()
-    // var hashtag = data.match(/\B#\w*/g)
-    // var finalHash = hashtag.join('').substring(1)
-
+    if((/\B#\w*/g).test(data)) {
+      var hashtag = data.match(/\B#\w*/g)
+      var finalHash = hashtag.join('').substring(1)
+    }
     $.ajax({
       method: "POST",
       url: "/tweets",
       dataType: "json",
-      data: {tweet: {content: data}}
+      data: {tweet: {content: data}, hashtags: [finalHash] }
     })
     .done(function(response){
       console.log(response)
@@ -38,9 +39,15 @@ $(document).ready(function(){
       var avatarUrl = response.avatar_url.replace(" ", "+")
       console.log("avatar url", avatarUrl)
       var createdAt = (new Date(response.created_at))
-      var currentTime = Math.floor((Date.now()- (createdAt))/1000/60)
+      var currentTime = Math.floor((Date.now() - (createdAt))/1000/60)
       $("#tweets-container").find("ul").prepend("<li class='" + "tweet'>" + "<img class='avatar' src='" + avatarUrl +  "' alt=''/> <div class='tweet-content'><p><span class='full-name'>" + response.username + "</span>" + "<span class='username'>" + response.handle + "</span> <span class='timestamp'>- " + currentTime + "m" + "</span> </p><p>" + response.content + "</p></div></li>" )
       $("#tweets-container").find("ul").children().last().remove()
+      $("#new-tweet").val("")
+      // $('.tweet').slideDown('slow')
+      // $("#tweets-container").find("ul").children().first().fadeIn();
     })
   })
+
+
+
 })
