@@ -20,7 +20,7 @@ $(document).ready(function(){
     })
     // Prepend response to Tweet River
     .done(function(response){
-      $tweetRiver.prepend(tweetsViews.renderTweet(response))
+      $tweetRiver.prepend(tweetsViews.renderTweet(response)).children().first().hide().fadeIn(200)
       // Remove oldest tweet in Tweet River
       $tweetRiver.children().last().remove()
     });
