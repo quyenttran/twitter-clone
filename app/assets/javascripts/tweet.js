@@ -40,11 +40,11 @@ $(document).ready(function(){
       console.log("avatar url", avatarUrl)
       var createdAt = (new Date(response.created_at))
       var currentTime = Math.floor((Date.now() - (createdAt))/1000/60)
-      $("#tweets-container").find("ul").prepend("<li class='" + "tweet'>" + "<img class='avatar' src='" + avatarUrl +  "' alt=''/> <div class='tweet-content'><p><span class='full-name'>" + response.username + "</span>" + "<span class='username'>" + response.handle + "</span> <span class='timestamp'>- " + currentTime + "m" + "</span> </p><p>" + response.content + "</p></div></li>" )
+      $("#tweets-container").find("ul").prepend("<li class='" + "tweet'>" + "<img class='avatar' src='" + avatarUrl +  "' alt=''/> <div class='tweet-content'><p><span class='full-name'>" + response.username + "</span>" + "<span class='username'>" + response.handle + "</span> <span class='timestamp'>- " + currentTime + "m" + "</span> </p><p>" + response.content + "</p></div></li>" ).find("li:first").hide().fadeIn('slow')
       $("#tweets-container").find("ul").children().last().remove()
       $("#new-tweet").val("")
-      // $('.tweet').slideDown('slow')
-      // $("#tweets-container").find("ul").children().first().fadeIn();
+
+
     })
   })
 
