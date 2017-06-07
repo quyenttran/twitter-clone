@@ -4,6 +4,8 @@ function showMatched(matchedTweets){
   showMoreTweets(matchedTweets)
 }
 
-function makeSearchRed(){
+function showSearchError(){
   $('#search').css('background-color', 'red')
+  $('#tweets-container').prepend('<p id="error"><strong>Couldn\'t find any tweets with that hashtag!</strong></p>')
+  $('#error').css({'color': 'red', 'margin-left': '70px'}).delay(2000).fadeOut()
 }

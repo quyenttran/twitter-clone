@@ -11,6 +11,6 @@ function handleMatchedTweets(event){
     showMatched(matchedTweetsData)
   })
   promiseFromAjax.fail(function(){
-    makeSearchRed()
+    showSearchError()
   })
 }
