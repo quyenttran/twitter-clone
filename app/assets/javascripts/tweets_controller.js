@@ -21,6 +21,8 @@ $(document).ready(function(){
     // Prepend response to Tweet River
     .done(function(response){
       $tweetRiver.prepend(tweetsViews.renderTweet(response))
+      // Remove oldest tweet in Tweet River
+      $tweetRiver.children().last().remove()
     });
   });
 
