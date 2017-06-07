@@ -1,6 +1,7 @@
 $(document).ready(function(){
   $('#search-form').on('submit', function(event){
     handleMatchedTweets(event)
+    $(window).unbind("scroll");
   })
 })
 
