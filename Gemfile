@@ -23,6 +23,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'jasmine-rails'
+  gem 'byebug'
 end
 
 group :test do
