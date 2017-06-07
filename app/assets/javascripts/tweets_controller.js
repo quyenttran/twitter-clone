@@ -13,7 +13,7 @@ $(document).ready(function(){
     event.preventDefault();
     var $that = $(this);
     var tweet = new Tweet({content: $tweetFormBody.val()});
-    var data = {tweet: {hashtag_names: tweet.hashtag_names, content: tweet.content}}
+    var data = {tweet: {content: tweet.content}, hashtags: tweet.hashtag_names}
     $.ajax({
       method: 'post',
       url: '/tweets',
@@ -22,6 +22,7 @@ $(document).ready(function(){
     })
     // Prepend response to Tweet River
     .done(function(response){
+      console.log(response)
       $tweetRiver.prepend(tweetsViews.renderTweet(response)).children().first().hide().fadeIn(200)
       // Remove oldest tweet in Tweet River
       $tweetRiver.children().last().remove()

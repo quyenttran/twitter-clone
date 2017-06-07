@@ -9,7 +9,7 @@ var Tweet = function(args) {
 }
 
 Tweet.prototype.getHashtags = function(content) {
-  var matches = content.match(/\B#\w*[a-zA-Z]+\w*/g)
+  var matches = content.match(/\B#\w*[a-zA-Z]+\w*/g) || []
   var newMatches = []
   matches.forEach(function(tag) {
     newMatches.push(tag.substring(1));
