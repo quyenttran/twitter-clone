@@ -6,6 +6,7 @@ class TweetsController < ApplicationController
   end
 
   def search
+    puts params
     hashtag = Hashtag.where(name: params[:keyword]).first
     if hashtag
       render json: hashtag.tweets.ordered_json
@@ -28,7 +29,6 @@ class TweetsController < ApplicationController
       hashtag = Hashtag.where(name: name).first_or_create
       tweet.hashtags << hashtag
     end
-
     render json: tweet.to_json(methods: :hashtag_names)
   end
 
