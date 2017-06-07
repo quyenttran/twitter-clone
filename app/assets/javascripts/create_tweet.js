@@ -31,7 +31,15 @@ function handleCreateTweet() {
 }
 
 function showNewTweet(tweet) {
-  $("#tweets-container > ul").prepend("<li class=\"tweet\">" +
+  $("#tweets-container > ul").children().last().remove()
+  $("#tweets-container > ul").animate({
+    marginTop: "+=73px"
+  }, 500)
+
+  $("#tweets-container > ul").animate({
+    marginTop: "-=73px"
+  }, 1, function() {
+    $("#tweets-container > ul").prepend("<li class=\"tweet\">" +
         "<img class=\"avatar\" src=\"" + tweet.avatar_url + "\" alt=\"\">" +
         "<div class=\"tweet-content\">" +
           "<p>" +
@@ -42,6 +50,8 @@ function showNewTweet(tweet) {
           "<p>" + tweet.content + "</p>" +
         "</div>" +
       "</li>")
+  })
+
 
   $("#new-tweet").val('');
 }
