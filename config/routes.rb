@@ -6,5 +6,6 @@ TwitterDashboardApi::Application.routes.draw do
   post 'tweets', to: 'tweets#create'
   get 'hashtags/popular', to: 'hashtags#popular'
 
-  root to: 'static#index'
+  # root to: 'static#index'
+  mount_ember_app :frontend, to: "/"
 end
