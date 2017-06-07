@@ -4,7 +4,7 @@ $(document).ready(function(){
 
 function handleRecentTweets() {
   var promiseFromAjax = fetchRecent();
-  promiseFromAjax.done(function(recentData){
-    showRecent(recentData)
+  promiseFromAjax.done(function(recentTweetsData){
+    showRecent(recentTweetsData)
   })
 }
