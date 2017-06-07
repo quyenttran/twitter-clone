@@ -113,8 +113,14 @@ a {
   text-decoration: none;
   color: orange;
 }
-/* added this above ^ */
+a:hover{
+    color:darkorange;
+  }
 
+#brand:hover{
+  color:orange;
+}
+/* added this above ^ */
 
 #tweets-container {
   position: absolute;
