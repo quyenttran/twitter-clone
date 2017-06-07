@@ -8,7 +8,8 @@ $(document).ready(function() {
       url: "/tweets",
       data: { tweet: {content: content}}
     }).done(function(response){
-      $("#tweets-container").find("ul").append(renderTweet(response));
+      console.log(response)
+      $("#tweets-container").find("ul").prepend(renderTweet(response));
     })
   })
 })
