@@ -9,7 +9,7 @@ TweetsViews.prototype.renderTweet = function(tweet){
 TweetsViews.prototype.stringifyHashTags = function(tweet){
   var hashTagsString = ""
   tweet.hashtag_names.forEach(function(hashTag){
-    hashTagsString = hashTagsString + " #" + hashTag;
+    hashTagsString = hashTagsString + "<a class='hash-tag' href='" + "/tweets/search/" + hashTag + "'>" + " #" + hashTag + "</a>";
   })
   return hashTagsString
 }
