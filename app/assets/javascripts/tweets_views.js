@@ -14,4 +14,6 @@ TweetsViews.prototype.stringifyHashTags = function(tweet){
   return hashTagsString
 }
 
-TweetsViews.prototype.
+// TweetsViews.prototype.timeSinceTweet = function(tweet) {
+//   return Date.now() - tweet.created_at;
+// }
