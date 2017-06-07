@@ -1,30 +1,29 @@
 $(document).ready(function() {
-
   $("#tweet-form").on("submit", function(e) {
     e.preventDefault()
     handleCreateTweet();
   })
-
-
 })
 
-function Tweet(content) {
-  this.content = content;
-}
 
-function createTweet(newTweet) {
-  dataToSend = {"tweet": {"content": newTweet.content}}
-
+function createTweet(newTweet, tags) {
+  dataToSend = {"tweet": {"content": newTweet}, "hashtags": tags}
   var requestPromise = $.ajax({url: "/tweets", method: "POST", data: dataToSend});
-
   return requestPromise;
 }
 
 function handleCreateTweet() {
-  var tweet = new Tweet($("#new-tweet").val())
+  var content = $("#new-tweet").val()
+  var contentAndTags = content.split(" ")
+  var tags = [];
 
-  var promiseFromAjax = createTweet(tweet);
+  $.each(contentAndTags, function(i,val) {
+    if (contentAndTags[i].indexOf("#") === 0){
+      tags.push(contentAndTags[i].substring(1))
+    }
+  })
 
+  var promiseFromAjax = createTweet(content, tags);
   promiseFromAjax.done(function(tweetInfo) {
     showNewTweet(tweetInfo);
   })
@@ -32,13 +31,14 @@ function handleCreateTweet() {
 
 function showNewTweet(tweet) {
   $("#tweets-container > ul").children().last().remove()
+
   $("#tweets-container > ul").animate({
     marginTop: "+=73px"
   }, 500)
 
   $("#tweets-container > ul").animate({
     marginTop: "-=73px"
-  }, 1, function() {
+  }, 0, function() {
     $("#tweets-container > ul").prepend("<li class=\"tweet\">" +
         "<img class=\"avatar\" src=\"" + tweet.avatar_url + "\" alt=\"\">" +
         "<div class=\"tweet-content\">" +
@@ -51,7 +51,6 @@ function showNewTweet(tweet) {
         "</div>" +
       "</li>")
   })
-
 
   $("#new-tweet").val('');
 }
