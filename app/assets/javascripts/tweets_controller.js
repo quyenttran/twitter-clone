@@ -57,6 +57,7 @@ $(document).ready(function(){
 			$tweetRiver.html("")
 	    	response.forEach(function(tweet){
 	      	$tweetRiver.append(tweetsViews.renderTweet(tweet));
+	      	$('#search').css('background-color', 'white')
 	    	})
     	})
     	.fail(function(response){
