@@ -16,7 +16,6 @@ function renderHashtag(hashtag) {
 
 function showAllHashtags() {
   var promiseFromAjax = fetchHashtags();
-  console.log(promiseFromAjax);
   promiseFromAjax.done(function(response){
     response.forEach(function(hashtag) {
       $("#trends-container").find("ul").append(renderHashtag(hashtag));
