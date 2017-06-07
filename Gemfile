@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '~> 4.2'
 gem 'jquery-rails'
 gem 'pg'
+gem "ember-cli-rails"
 
 # Gems used only for assets and not required
 # in production environments by default.
