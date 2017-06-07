@@ -1,4 +1,4 @@
-var Tweet = function (args) {
+var Tweet = function(args) {
   this.content = args.content
   this.username = args.username
   this.handle = args.handle
@@ -8,3 +8,7 @@ var Tweet = function (args) {
   this.hashtag_names = args.hashtag_names
 }
 
+var NewTweet = function(content) {
+  this.content = content
+  this.hashtag_names = content.match(/[#]\w+/g)
+}
