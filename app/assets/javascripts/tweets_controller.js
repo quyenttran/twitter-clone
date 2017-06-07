@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
-  var tweetForm = $("#tweet-form")
-  var tweetRiver = $("#tweets-container").find("ul")
-  var searchTweets = $("#search-form")
+  var $tweetForm = $("#tweet-form")
+  var $tweetRiver = $("#tweets-container").find("ul")
+  var $searchTweets = $("#search-form")
   var $tweetFormBody = $('#new-tweet')
 
 // Create TweetsViews object
@@ -45,20 +45,23 @@ $(document).ready(function(){
   });
 
 
-	searchTweets.on("submit", function(event){
+	$searchTweets.on("submit", function(event){
 		event.preventDefault();
-		var $that = $('#search').val();
-		console.log($that)
-		// var query = $that
-		// console.log(query)
+		var $that = $(this)
+		var query = $('#search').val();
 		$.ajax({
 			method: 'get',
-			url: "tweets/search/" + $that
-			// dataType: 'JSON'
+			url: "tweets/search/" + query
 		})
 		.done(function(response){
-			console.log(response)
-			tweetRiver.prepend(response)
-		})
+			$tweetRiver.html("")
+	    	response.forEach(function(tweet){
+	      	$tweetRiver.append(tweetsViews.renderTweet(tweet));
+	    	})
+    	})
+    	.fail(function(response){
+    		$('#search').css('background-color', 'pink')
+    		console.log(response)
+    	})
 	})
 });
