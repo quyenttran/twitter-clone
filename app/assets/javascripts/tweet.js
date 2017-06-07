@@ -17,8 +17,8 @@ $(document).ready(function(){
     .done(function(response){
       for(var i = 0; i < response.length; i++){
       var j = (i + 1)
-      var currentTime = ((Date(Date.now()) - response[i].created_at) / 1000 / 60)
-      console.log(currentTime)
+      var createdAt = (new Date(response).created_at)
+      var currentTime = Math.floor((Date.now()- (createdAt))/1000/60)
       $("#tweets-container").find("li:nth-child(" + j + ")").find(".full-name").text(response[i].username)
       $("#tweets-container").find("li:nth-child(" + j + ")").find(".username").text(response[i].handle)
       $("#tweets-container").find("li:nth-child(" + j + ")").find(".timestamp").text(response[i].currentTime)
@@ -43,8 +43,9 @@ $(document).ready(function(){
       console.log($("#tweets-container").find("li").last)
       var avatarUrl = response.avatar_url.replace(" ", "+")
       console.log("avatar url", avatarUrl)
-
-      $("#tweets-container").find("ul").prepend("<li class='" + "tweet'>" + "<img class='avatar' src='" + avatarUrl +  "' alt=''/> <div class='tweet-content'><p><span class='full-name'>" + response.username + "</span>" + "<span class='username'>" + response.handle + "</span> <span class='timestamp'>- 6m</span> </p><p>" + response.content + "</p></div></li>" )
+      var createdAt = (new Date(response.created_at))
+      var currentTime = Math.floor((Date.now()- (createdAt))/1000/60)
+      $("#tweets-container").find("ul").prepend("<li class='" + "tweet'>" + "<img class='avatar' src='" + avatarUrl +  "' alt=''/> <div class='tweet-content'><p><span class='full-name'>" + response.username + "</span>" + "<span class='username'>" + response.handle + "</span> <span class='timestamp'>- " + currentTime + "m" + "</span> </p><p>" + response.content + "</p></div></li>" )
       $("#tweets-container").find("ul").children().last().remove()
     })
   })
