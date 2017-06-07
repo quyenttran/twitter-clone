@@ -1,4 +1,4 @@
-// model for recent
+// model for recent tweets
 function requestRecent() {
   var request = $.ajax({
       method: 'get',
@@ -7,6 +7,16 @@ function requestRecent() {
   return request
 }
 
+// model for popular hashtags
+function requestPopular() {
+  var request = $.ajax({
+      method: 'get',
+      url: '/hashtags/popular'
+  });
+  return request
+}
+
+// view time helper method
 function timeSince(timeString) {
   var now = moment(new Date())
   var then = moment(timeString)
@@ -16,6 +26,7 @@ function timeSince(timeString) {
 
 $(document).ready(function(event) {
   var tweet = $(".tweet")
+  var hashtag = $("#trends-container")
 
   // views for recent
   function displayAvatar(url, i) {
@@ -41,6 +52,12 @@ $(document).ready(function(event) {
     displayContent(tweet.content, i)
   }
 
+  // view for popular
+  function displayHashtag(htag, i) {
+    console.log("test")
+    hashtag.find("ul").find("li").eq(i).text("#"+htag.name)
+  }
+
   // controller for recent
   function controlRecent(recentTweets) {
     recentTweets.done(function(response){
@@ -50,5 +67,15 @@ $(document).ready(function(event) {
     })
   }
 
+  // controller for popular
+  function controlPopular(popularHashtags) {
+    popularHashtags.done(function(response){
+      for(var i=0; i<response.length; i++) {
+        displayHashtag(response[i], i)
+      }
+    })
+  }
+
   controlRecent(requestRecent());
+  controlPopular(requestPopular());
 })
