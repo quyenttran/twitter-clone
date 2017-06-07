@@ -11,7 +11,7 @@ function fetchHashtags() {
 }
 
 function renderHashtag(hashtag) {
-  return "<li>" + hashtag.hashtag_count + "| " + hashtag.name + "</li>"
+  return "<li><a href='/tweets/search/" + hashtag.name + "'>" + hashtag.name + "</a> (" + hashtag.hashtag_count +")</li>"
 }
 
 function showAllHashtags() {
