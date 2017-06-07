@@ -45,7 +45,7 @@ function showNewTweet(tweet) {
           "<p>" +
             "<span class=\"full-name\">" + tweet.username + "</span>" +
             "<span class=\"username\">" + tweet.handle + "</span>" +
-            "<span class=\"timestamp\"> - " +  minutesSinceTweet(tweet.updated_at) + "m</span>" +
+            "<span class=\"timestamp\"> - " +  timeSinceTweet(tweet.updated_at) + "</span>" +
           "</p>" +
           "<p>" + tweet.content + "</p>" +
         "</div>" +
