@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 class NewTweetForm extends Component { 
-
+  
   render() {
     return (
       <form id="tweet-form" onSubmit={this.props.handleNewFormSubmit}>

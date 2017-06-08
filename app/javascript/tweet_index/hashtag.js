@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
-const Hashtag = ({tag}) => (
+const Hashtag = ({tag, handleHashtagLink}) => (
 
-  <li className="hashtag">
-    {tag.name}
-  </li>
+  <a href={tag.name} onClick={handleHashtagLink}>
+    <li className="hashtag" >
+      {tag.name}
+    </li>
+  </a>
 )
 
 export default Hashtag;

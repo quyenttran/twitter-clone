@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import Tweet from './tweet'
-import TweetRiver from './tweet_river'
+import TweetContainer from './tweet_container'
 import HashtagContainer from './hashtag_container'
 import NewTweetForm from './new_tweet_form'
+import SearchForm from './search_form'
+import {getFormValues, findHashTags, resetFormValues} from './form_utils'
 
 class TweetIndex extends Component {
   constructor(props) {
     super(props);
     this.state = { 
       recentTweets: [],
-      popularHashtags: []
+      popularHashtags: [],
+      defaultVal: "",
+      formError: false
     };
   }
 
@@ -19,16 +23,10 @@ class TweetIndex extends Component {
     this.fetchHashtags();
   } 
 
-  getFormValues(targetedForm) {
-    var kvpairs = {};
-    var form = targetedForm
-    for ( var i = 0; i < form.elements.length; i++ ) {
-      var e = form.elements[i];
-      if(e.name){
-        kvpairs[e.name] = e.value;
-      }
-    }
-    return kvpairs;
+  findHashTags(content) {
+    return content.split(" ").filter( (word) => {
+      return word.startsWith("#")
+    })
   }
 
   fetchTweets() {
@@ -49,12 +47,28 @@ class TweetIndex extends Component {
     })
   }
 
-  postTweet(newTweet) {
+  fetchHashtag(hashtag) {
+    fetch('/tweets/search/' + hashtag)
+    .then((response) => {
+      if(response.status !== 404){
+        response.json().then((data) => {
+          this.setState({recentTweets: data, formError: false})
+        })
+      } else {
+        this.setState({formError: true})
+      }
+    })
+    .catch((error) => {
+      console.warn(error.status)
+    })
+  }
+
+  postTweet(newTweet, hashTags) {
     let token = document.head.querySelector("[name=csrf-token]").content;
 
     fetch('tweets', {
       method: 'post',
-      body: JSON.stringify({tweet: newTweet}),
+      body: JSON.stringify({tweet: newTweet, hashtags: hashTags}),
       headers: {
         'X-CSRF-Token': token,
         'Content-Type': 'application/json'
@@ -65,18 +79,39 @@ class TweetIndex extends Component {
       response.json().then((data) => {
         let tweets = [data, ...this.state.recentTweets]
         this.setState({ 
-          showForm: false,
           recentTweets: tweets
         })
       })
     })
+    .catch((error) => {
+      console.warn(error.status)
+    })
+  }
+
+  handleSearchFormSubmit(event) {
+    event.preventDefault();
+
+    let inputs = event.target.getElementsByTagName("input")
+    let formValues = getFormValues(event.target)
+    this.fetchHashtag(formValues.query)
+    resetFormValues(inputs)
   }
 
   handleNewFormSubmit(event) {
     event.preventDefault();
 
-    let newTweet = this.getFormValues(event.target)
-    this.postTweet(newTweet)
+    let textarea = event.target.getElementsByTagName("textarea"); 
+    let newTweet = getFormValues(event.target)
+    let hashTags = findHashTags(newTweet.content)
+
+    this.postTweet(newTweet, hashTags)
+    resetFormValues(textarea)
+  }
+
+  handleHashtagLink(event) {
+    event.preventDefault();
+    const hashtag = event.target.innerHTML
+    this.fetchHashtag(hashtag)
   }
 
   render () {
@@ -84,23 +119,22 @@ class TweetIndex extends Component {
       <div>
         <header id="top-nav">
           <div id="brand">Lil' Twitter API</div>
-          <form id="search-form">
-            <input id="search" type="text" name="query" />
-          </form>
+          {<SearchForm 
+              handleSearchFormSubmit={this.handleSearchFormSubmit.bind(this)} formError={this.state.formError}/>}
           <i className="fa fa-search"></i>
         </header>
         <section className="container">
           <section id="tweet-box">
             <p id="tweet-box-title">Compose New Tweet</p>
-            {<NewTweetForm handleNewFormSubmit={this.handleNewFormSubmit.bind(this)}/>}
+            {<NewTweetForm handleNewFormSubmit={this.handleNewFormSubmit.bind(this)} defaultVal={this.state.defaultVal}/>}
           </section>
           <section id="trends-container">
             <h3>Trends</h3>
-            {<HashtagContainer popularHashtags={this.state.popularHashtags} />}
+            {<HashtagContainer popularHashtags={this.state.popularHashtags} handleHashtagLink={this.handleHashtagLink.bind(this)} />}
           </section>
           <section id="tweets-container">
             <h3>Tweets</h3> 
-            {<TweetRiver recentTweets={this.state.recentTweets}/>}
+            {<TweetContainer recentTweets={this.state.recentTweets}/>}
           </section>
         </section>
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Tweet from './tweet'
 
-class TweetRiver extends Component {
+class TweetContainer extends Component {
 
   renderRecent() {
     return this.props.recentTweets.map( (tweet, index) => 
@@ -19,4 +19,4 @@ class TweetRiver extends Component {
   }
 }
 
-export default TweetRiver;
+export default TweetContainer;

@@ -10,6 +10,7 @@ class TweetsController < ApplicationController
     if hashtag
       render json: hashtag.tweets.ordered_json
     else
+      puts "in else"
       render :nothing => true, status: 404
     end
   end

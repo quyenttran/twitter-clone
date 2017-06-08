@@ -5,7 +5,7 @@ class HashtagContainer extends Component {
 
   renderTags() {
     return this.props.popularHashtags.map( (tag, index) => 
-      <Hashtag key={index} tag={tag}/>
+      <Hashtag key={index} tag={tag} handleHashtagLink={this.props.handleHashtagLink}/>
     )
   }
 
