@@ -8,6 +8,9 @@ $(document).ready(function(){
 // Create TweetsViews object
   var tweetsViews = new TweetsViews
 
+// Declare prevResponse variable for long polling
+  var prevResponse
+
 // POST new tweet data to server to create tweet
   $tweetForm.on("submit", function(event){
     event.preventDefault();
@@ -28,7 +31,6 @@ $(document).ready(function(){
     });
   });
 
-
 // GET most recent 50 tweets
   $.ajax({
     method: 'get',
@@ -38,10 +40,12 @@ $(document).ready(function(){
     tweets = ""
     // Erase current content of $tweetRiver
     $tweetRiver.html("")
-    // Prepend each tweet
+    // Append each tweet
     response.forEach(function(tweet){
       $tweetRiver.append(tweetsViews.renderTweet(tweet));
     })
+    // Assign prevResponse to response to set up long polling
+    // prevResponse = response
   });
 
 
@@ -64,4 +68,24 @@ $(document).ready(function(){
     		$('#search').css('background-color', 'pink')
     	})
 	})
+
+  // Long polling for new tweets
+  var pollForNewTweets = function(){
+    var getRecentTweets = function(){
+    var ajaxRequest = $.ajax({
+      url: '/tweets/recent',
+      dataType: "json",
+      success: function(response){
+        if (response[0].created_at !== prevResponse[0].created_at) {
+          $("#tweets-container").find("h3").append("<p style='text-align: center; border-radius: 5px; color: white; border: solid 1px grey; padding: 10px 0; margin: 10px 20px 10px 10px; background-color: grey;''><a href='/'>New tweets are available. Click to reload.</p>")
+          prevResponse = response
+        }
+      },
+      })
+    };
+    setInterval(getRecentTweets, 5000)
+  }
+  // Commented out longpolling call, because it's bad.
+  // pollForNewTweets()
+
 });
