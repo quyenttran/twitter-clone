@@ -2,7 +2,7 @@ $(document).ready(function() {
   var $trending = $("#trends-container").find("ul")
   var $tweetRiver = $("#tweets-container").find("ul")
   var hashtagsViews = new HashtagsViews
-  var tweetsViews = new TweetsViews
+  var twitsViews = new TweetsViews
 
   $.ajax({
     method: "GET",
@@ -26,8 +26,9 @@ $(document).ready(function() {
       $tweetRiver.html("")
       // Prepend each tweet
       response.forEach(function(tweet){
-        $tweetRiver.append(tweetsViews.renderTweet(tweet));
+        $tweetRiver.append(twitsViews.renderTweet(tweet));
       })
+    twitsViews.scrollView()
     })
   })
 
@@ -44,8 +45,9 @@ $(document).ready(function() {
       $tweetRiver.html("")
       console.log(response)
       response.forEach(function(tweet){
-        $tweetRiver.append(tweetsViews.renderTweet(tweet));
+        $tweetRiver.append(twitsViews.renderTweet(tweet));
       })
+    twitsViews.scrollView()
     })
   })
 

@@ -120,6 +120,13 @@ a:hover{
 #brand:hover{
   color:orange;
 }
+
+.view-more{
+  text-align:center;
+}
+
+/*#myList li{ display:none;
+}*/
 /* added this above ^ */
 
 #tweets-container {

@@ -42,6 +42,7 @@ $(document).ready(function(){
     response.forEach(function(tweet){
       $tweetRiver.append(tweetsViews.renderTweet(tweet));
     })
+    tweetsViews.scrollView()
   });
 
 
@@ -57,8 +58,9 @@ $(document).ready(function(){
 			$tweetRiver.html("")
 	    	response.forEach(function(tweet){
 	      	$tweetRiver.append(tweetsViews.renderTweet(tweet));
-	      	$('#search').css('background-color', 'white')
-	    	})
+        })
+	    $('#search').css('background-color', 'white')
+      tweetsViews.scrollView()
     	})
     	.fail(function(response){
     		$('#search').css('background-color', 'pink')

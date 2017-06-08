@@ -24,3 +24,26 @@ TweetsViews.prototype.removeHashtags = function(content) {
   var newContent = content.replace(hashtags, " ")
   return newContent
 }
+
+TweetsViews.prototype.scrollView = function() {
+  // size_li = $tweetRiver.find("li").size();
+  // x=10;
+  // $tweetRiver.find("li:lt("+x+")").show();
+  $("#myList li").css("display", "none")
+
+  var size_li = $("#myList li").size();
+  var x=8;
+  $('#myList li:lt('+x+')').show();
+
+  $("body").on("click", ".view-more", function(){
+    x= (x+3 <= size_li) ? x+3 : size_li;
+    $('#myList li:lt('+x+')').fadeIn();
+  })
+
+  $(window).scroll(function() {
+    if (document.body.scrollTop >= (document.body.scrollHeight - window.innerHeight - 50)) {
+      x= (x+3 <= size_li) ? x+3 : size_li;
+      $('#myList li:lt('+x+')').fadeIn();
+    }
+  })
+}
