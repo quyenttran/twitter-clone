@@ -78,6 +78,7 @@ class TweetIndex extends Component {
     .then((response) => {
       response.json().then((data) => {
         let tweets = [data, ...this.state.recentTweets]
+        tweets.pop()
         this.setState({ 
           recentTweets: tweets
         })
