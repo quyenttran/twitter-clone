@@ -16,9 +16,7 @@ $(document).ready(function(){
     event.preventDefault();
     var $that = $(this);
     var tweet = new Tweet({content: $tweetFormBody.val()});
-    // if (tweet.content.includes('#')) {
     var data = {tweet: {hashtag_names: tweet.hashtag_names, content: tweet.content}}
-    // else {data = {tweet: {content: tweet.content}}}
     $.ajax({
       method: 'post',
       url: '/tweets',
@@ -27,10 +25,9 @@ $(document).ready(function(){
     })
     // Prepend response to Tweet River
     .done(function(response){
-      console.log("New tweet!")
-      // $tweetRiver.prepend(tweetsViews.renderTweet(response)).children().first().hide().fadeIn(200)
+      $tweetRiver.prepend(tweetsViews.renderTweet(response)).children().first().hide().fadeIn(200)
       // Remove oldest tweet in Tweet River
-      // $tweetRiver.children().last().remove()
+      $tweetRiver.children().last().remove()
     });
   });
 
@@ -47,7 +44,8 @@ $(document).ready(function(){
     response.forEach(function(tweet){
       $tweetRiver.append(tweetsViews.renderTweet(tweet));
     })
-    prevResponse = response
+    // Assign prevResponse to response to set up long polling
+    // prevResponse = response
   });
 
 
@@ -87,7 +85,7 @@ $(document).ready(function(){
     };
     setInterval(getRecentTweets, 5000)
   }
-
-  pollForNewTweets()
+  // Commented out longpolling call, because it's bad.
+  // pollForNewTweets()
 
 });
