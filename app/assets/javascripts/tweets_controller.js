@@ -48,7 +48,7 @@ $(document).ready(function(){
     tweetsViews.scrollView()
 
     // Assign prevResponse to response to set up long polling
-    // prevResponse = response
+    prevResponse = response
 
   });
 
