@@ -59,7 +59,9 @@ function findHashtags(tweet) {
 }
 
 function renderTweet(tweet) {
-  return "<li class='tweet'><img class='avatar' src='" + tweet.avatar_url + "' alt=''><div class='tweet-content'><p><span class='full-name'>" + tweet.username + "</span><span class='username'>" + tweet.handle + "</span><span class='timestamp'>- " + moment(tweet.created_at).fromNow() + "</span></p><p>" + tweet.content + "</p></div></li>"
+  var hashtags = showHashtags(tweet);
+  console.log(hashtags);
+  return "<li class='tweet'><img class='avatar' src='" + tweet.avatar_url + "' alt=''><div class='tweet-content'><p><span class='full-name'>" + tweet.username + "</span><span class='username'>" + tweet.handle + "</span><span class='timestamp'>- " + moment(tweet.created_at).fromNow() + "</span></p><p>" + tweet.content + " " + hashtags  + "</p></div></li>"
 }
 
 function fetchRecentTweets() {
@@ -70,6 +72,16 @@ function fetchRecentTweets() {
     $("#tweets-container").find("ul").append(renderTweet(tweet));
     })
   })
+}
+
+function showHashtags(tweet) {
+  var hashtagString = ""
+  var allhashTags = tweet.hashtags;
+  console.log(allhashTags)
+  tweet.hashtag_names.forEach(function(hashtag) {
+    hashtagString += (hashtag.name + " ")
+  })
+  return hashtagString;
 }
 
 
