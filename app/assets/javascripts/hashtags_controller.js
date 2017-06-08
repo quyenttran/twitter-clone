@@ -1,5 +1,11 @@
 $(document).ready(function() {
   showAllHashtags();
+
+  $("#trends-container").on("click", ".trend", function(event) {
+    event.preventDefault();
+    var hashtag = $(this).text();
+    showSearchedTweets(hashtag);
+  })
 })
 
 function fetchHashtags() {
@@ -11,7 +17,7 @@ function fetchHashtags() {
 }
 
 function renderHashtag(hashtag) {
-  return "<li><a href='/tweets/search/" + hashtag.name + "'>" + hashtag.name + "</a> (" + hashtag.hashtag_count +")</li>"
+  return "<li><a href='/tweets/search/" + hashtag.name + "' class='trend'>" + hashtag.name + "</a> (" + hashtag.hashtag_count +")</li>"
 }
 
 function showAllHashtags() {
