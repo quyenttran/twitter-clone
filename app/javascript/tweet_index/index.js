@@ -49,8 +49,34 @@ class TweetIndex extends Component {
     })
   }
 
-  handleNewFormSubmit() {
+  postTweet(newTweet) {
+    let token = document.head.querySelector("[name=csrf-token]").content;
 
+    fetch('tweets', {
+      method: 'post',
+      body: JSON.stringify({tweet: newTweet}),
+      headers: {
+        'X-CSRF-Token': token,
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin'
+    })
+    .then((response) => {
+      response.json().then((data) => {
+        let tweets = [data, ...this.state.recentTweets]
+        this.setState({ 
+          showForm: false,
+          recentTweets: tweets
+        })
+      })
+    })
+  }
+
+  handleNewFormSubmit(event) {
+    event.preventDefault();
+
+    let newTweet = this.getFormValues(event.target)
+    this.postTweet(newTweet)
   }
 
   render () {
@@ -66,10 +92,7 @@ class TweetIndex extends Component {
         <section className="container">
           <section id="tweet-box">
             <p id="tweet-box-title">Compose New Tweet</p>
-            <form id="tweet-form">
-              <textarea id="new-tweet" cols="30" rows="5" maxLength="140" name="tweet"></textarea>
-              <input type="submit" value="Tweet" />
-            </form>
+            {<NewTweetForm handleNewFormSubmit={this.handleNewFormSubmit.bind(this)}/>}
           </section>
           <section id="trends-container">
             <h3>Trends</h3>
