@@ -54,8 +54,12 @@ $(document).ready(function(event) {
 
   // view for popular
   function displayHashtag(htag, i) {
-    console.log("test")
     hashtag.find("ul").find("li").eq(i).text("#"+htag.name)
+  }
+
+  // view for new tweet
+  function createNewTweetHTML(tweet) {
+    return "<li class='tweet'> <img class='avatar' src=" + tweet.avatar_url + "> <div class='tweet-content'> <p> <span class='full-name'>" + tweet.username + "</span> <span class='username'>" + tweet.handle + "</span> <span class='timestamp'>" + timeSince(tweet.timestamp) + "</span> </p> <p>" + tweet.content + "</p> </div> </li>"
   }
 
   // controller for recent
@@ -75,6 +79,33 @@ $(document).ready(function(event) {
       }
     })
   }
+
+  // composing new tweet
+  $("#tweet-form").on("submit", function(event){
+    event.preventDefault();
+
+    var $form = $(this);
+    var self = this;
+    var formData = $form.serialize();
+
+    var request = $.ajax({
+      method: 'post',
+      url: 'tweets#create',
+      data: formData,
+      dataType: 'json'
+    })
+
+    request.done(function(response){
+      $("#tweets-container").find("ul").prepend(createNewTweetHTML(response));
+
+      //displayTweet(tweet, 0)
+      self.reset();
+    })
+
+    request.fail(function(error_response){
+      alert("Composing tweet failed")
+    })
+  })
 
   controlRecent(requestRecent());
   controlPopular(requestPopular());
