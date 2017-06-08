@@ -32,9 +32,9 @@ $(document).ready(function() {
 
 function showSearchedTweets(hashtag) {
   var promiseFromAjax = searchedTweets(hashtag);
+  $("#tweets-container").find("ul").children().remove();
   promiseFromAjax.done(function(response) {
     response.forEach(function(tweet) {
-      $("#tweets-container").find("ul").children().remove();
       $("#tweets-container").find("ul").append(renderTweet(tweet));
     })
   })
