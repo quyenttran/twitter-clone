@@ -8,7 +8,7 @@ $(document).ready(function(){
     .done(function(response){
       for(var i = 0; i < response.length; i++){
       var j = (i + 1)
-      $("#trends-container").find("li:nth-child(" + j + ")").text(response[i].name)
+      $("#trends-container").find("li:nth-child(" + j + ")").text(response[i].name + " #" + response[i].hashtag_count.toString())
     }
   })
 
