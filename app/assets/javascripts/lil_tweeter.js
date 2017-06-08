@@ -59,7 +59,7 @@ $(document).ready(function(event) {
 
   // view for new tweet
   function createNewTweetHTML(tweet) {
-    return "<li class='tweet'> <img class='avatar' src=" + tweet.avatar_url + "> <div class='tweet-content'> <p> <span class='full-name'>" + tweet.username + "</span> <span class='username'>" + tweet.handle + "</span> <span class='timestamp'>" + timeSince(tweet.timestamp) + "</span> </p> <p>" + tweet.content + "</p> </div> </li>"
+    return "<li class='tweet'> <img class='avatar' src=" + tweet.avatar_url + "> <div class='tweet-content'> <p> <span class='full-name'>" + tweet.username + "</span> <span class='username'>" + tweet.handle + "</span> <span class='timestamp'>" + timeSince(tweet.created_at) + " minutes ago</span> </p> <p>" + tweet.content + "</p> </div> </li>"
   }
 
   // controller for recent
